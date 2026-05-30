@@ -1,51 +1,65 @@
+# # name: Hello World
+# # on:
+# #   pull_request:
+# #     # types: [opened]
+
+# # # This workflow will run when a pull request is opened against the main branch.
+
+# # jobs:
+# #   startup:
+# #     name: Startup
+# #     runs-on: ubuntu-latest
+# #     steps:
+# #       - run: echo "Hello, World! This is a message from the GitHub Actions workflow. we will review it shortly."
+# #   build:
+# #     name: Build and Test
+# #     runs-on: ubuntu-latest
+# #     needs: startup 
+# #     steps:
+# #       - run: gh pr comment $PR_URL --body "Hello, World! This is a comment from the GitHub Actions workflow. we will review it shortly."
+# #         env:
+# #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+# #           PR_URL: ${{ github.event.pull_request.url }} 
+
 # name: Hello World
+
 # on:
 #   pull_request:
-#     # types: [opened]
-
-# # This workflow will run when a pull request is opened against the main branch.
 
 # jobs:
 #   startup:
-#     name: Startup
 #     runs-on: ubuntu-latest
+
 #     steps:
-#       - run: echo "Hello, World! This is a message from the GitHub Actions workflow. we will review it shortly."
+#       - name: Print message
+#         run: |
+#           echo "Hello World from GitHub Actions"
+
 #   build:
-#     name: Build and Test
 #     runs-on: ubuntu-latest
-#     needs: startup 
+#     needs: startup
+
 #     steps:
-#       - run: gh pr comment $PR_URL --body "Hello, World! This is a comment from the GitHub Actions workflow. we will review it shortly."
+#       - uses: actions/checkout@v4
+
+#       - name: Add PR comment
 #         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           PR_URL: ${{ github.event.pull_request.url }} 
+#           GH_TOKEN: ${{ github.token }}
+#           PR_URL: ${{ github.event.pull_request.html_url }}
+#         run: |
+#           gh pr comment "$PR_URL" \
+#             --body "Hello World from GitHub Actions"
+
 
 name: Hello World
 
 on:
-  pull_request:
+  push:
 
 jobs:
-  startup:
+  hello:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Print message
-        run: |
-          echo "Hello World from GitHub Actions"
-
-  build:
-    runs-on: ubuntu-latest
-    needs: startup
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Add PR comment
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PR_URL: ${{ github.event.pull_request.html_url }}
-        run: |
-          gh pr comment "$PR_URL" \
-            --body "Hello World from GitHub Actions"
+      - name: Print Message
+        run: echo "Hello World from GitHub Actions"
