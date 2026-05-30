@@ -3,4 +3,21 @@ on:
   pull_request:
     types: [opened]
 
-    
+# This workflow will run when a pull request is opened against the main branch.
+
+jobs:
+  startup:
+    name: Startup
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hello, World! This is a message from the GitHub Actions workflow. we will review it shortly."
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    needs: startup 
+    steps:
+      - run: gh pr comment $PR_URL --body "Hello, World! This is a comment from the GitHub Actions workflow. we will review it shortly."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.url }} 
+
